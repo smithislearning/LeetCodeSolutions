@@ -1,44 +1,30 @@
 import java.util.Arrays;
+import java.util.ArrayList;
 public class Solution {
-    
     public int[] twoSum(int[] nums, int target) {
-        int[] origin = new int[nums.length];
-        for(int x = 0; x < origin.length; x++){
-            origin[x] = nums[x];
+        ArrayList<Integer> origin = new ArrayList<Integer>();
+        for(int x = 0; x < nums.length; x++){
+            origin.add(nums[x]);
         }
         Arrays.sort(nums);
-        for(int y : origin){
-            System.out.print(y + ", ");
-        }
-        System.out.println(" ");
-        for(int z : nums) {
-            System.out.print(z + ", ");
-        }
-        System.out.println(" ");
         int[] result = {0,0};
         int a = 0;
         int b = 0;
         int tmpB = 0;
         for(int i = nums.length - 1; i > -1; i--) {
-            if(nums[i] <= target){
-                tmpB = Arrays.binarySearch(nums, target - nums[i]);
-                System.out.println(tmpB);
-                System.out.println(nums[i]);
-                System.out.println(origin[0]);
-                if(tmpB >= 0) {
-                    a = Arrays.binarySearch(origin, nums[i]);
-                    int tmpC = Arrays.binarySearch(origin, 0, a, nums[tmpB]);
-                    if(tmpC >= 0) {
-                        b = tmpC;
-                    } else {
-                        b = Arrays.binarySearch(origin, a + 1, origin.length, nums[tmpB]);
-                    }
-                    a++;
-                    b++;
-                    break;
-                } else {
-                    continue;
+            tmpB = Arrays.binarySearch(nums, target - nums[i]);
+            if(tmpB >= 0) {
+                a = origin.lastIndexOf(nums[i]);
+                b = origin.indexOf(nums[tmpB]);
+                if(a == b) {
+                    origin.remove(nums[i]);
+                    b = origin.indexOf(nums[tmpB]) + 1;
                 }
+                a++;
+                b++;
+                break;
+            } else {
+                continue;
             }
         }
         try{

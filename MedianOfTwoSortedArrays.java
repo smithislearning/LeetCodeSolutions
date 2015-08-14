@@ -42,7 +42,33 @@ public class Solution {
         return tmpHi;
     }
     private int[] midMerge(int[] inputLo, int[] inputHi) {
-        
+        int loLeft = search(inputHi[0], inputLo);
+        int hiRigh = search(inputLo[inputLo.length - 1], inputHi);
+        if(inputLo[loLfeft] <= inputHi[0]) {
+            loLeft++;
+        }
+        if(inputHi[hiRigh] <= inputLo[inputLo.length - 1]) {
+            hiRigh++;
+        }
+        int[] tmp = new int[inputLo.length + inputHi.length - loLeft - hiRigh];
+        for(int i = 0; i < loLeft; i++) {
+            tmp[i] = inputLo[i];
+        }
+        for(int j = 0; j < hiRigh; j++) {
+            tmp[loLeft + j] = inputHi[j];
+        }
+        Array.sort(tmp);
+        int[] result = new int[inputLo.length + inputHi.length];
+        for(int x = 0; x < loLeft; x++) {
+            result[x] = inputLo[x];
+        }
+        for(int y = 0; y < tmp.length; y++) {
+            result[loLeft + y] = tmp[y];
+        }
+        for(int z = 0; z < result.length; z++) {
+            result[loLeft + tmp.length + z] = inputHi[z];
+        }
+        return result;
     }
     private int search(int input, int[] passIn, int startIndex, int endIndex) {
         int midI = (startIndex + endIndex) / 2;

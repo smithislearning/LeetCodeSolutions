@@ -122,8 +122,8 @@ public class Solution {
     	int hiRigh = hiBound(inputLo[inputLo.length - 1], inputHi, 0);
         //tmp is a sorted array of all element in both inputLo and inputHi between inputLo[loLeft]
         //and inputHi[hiRigh] (include both of them).
-        int[] tmp = new int[inputLo.length - loLeft + hiRigh];
-        for(int i = 0; i < inputLo.length - loLeft - 1; i++) {
+        int[] tmp = new int[inputLo.length - loLeft + inputHi.length - hiRigh];
+        for(int i = 0; i < inputLo.length - loLeft; i++) {
         	tmp[i] = inputLo[i + loLeft];
         }
         for(int j = 0; j < hiRigh + 1; j++) {
@@ -147,9 +147,9 @@ public class Solution {
         int tmp = passIn[midI];
         if(midI == startIndex) {
             return midI;
-        } else if(tmp <= input) {
-           	midI = search(input, passIn, midI, endIndex);
-        } else if(tmp > input) {
+        } else if(tmp < input) {
+           	midI = search(input, passIn, midI + 1, endIndex);
+        } else if(tmp >= input) {
             midI = search(input, passIn, startIndex, midI);
         }
         return midI;

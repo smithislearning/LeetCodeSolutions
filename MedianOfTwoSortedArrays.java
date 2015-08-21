@@ -51,7 +51,6 @@ public class Solution {
         	aHiBound--;
         }
         //subA is an array of elements between a[mida] and b[midb] in array a.
-        System.out.println(bLoBound + ", " + aHiBound);
         int[] subA = Arrays.copyOfRange(a, mida, aHiBound + 1);
         //subB is an array of element between a[mida] and b[midb] in array b.
         int[] subB = Arrays.copyOfRange(b, bLoBound, midb + 1);
@@ -117,27 +116,32 @@ public class Solution {
         	return  result;
         }
     	//loLeft is the index of the first element in inputLo greater than inpuHi[0].
-    	//hiRigh is the index of the first element in inputHi greater than the last element of inputLo.
+    	//hiRigh is the index of the first element in inputHi smaller than the last element of inputLo.
         int loLeft = loBound(inputHi[0], inputLo, inputLo.length - 1);
     	int hiRigh = hiBound(inputLo[inputLo.length - 1], inputHi, 0);
         //tmp is a sorted array of all element in both inputLo and inputHi between inputLo[loLeft]
         //and inputHi[hiRigh] (include both of them).
-        int[] tmp = new int[inputLo.length - loLeft + inputHi.length - hiRigh];
+        int[] tmp = new int[inputLo.length - loLeft + hiRigh + 1];
         for(int i = 0; i < inputLo.length - loLeft; i++) {
         	tmp[i] = inputLo[i + loLeft];
         }
-        for(int j = 0; j < hiRigh + 1; j++) {
-            tmp[j + inputLo.length - loLeft] = inputHi[j];
+        for(int j = inputLo.length - loLeft; j < inputLo.length - loLeft + hiRigh + 1; j++) {
+            tmp[j] = inputHi[j - inputLo.length + loLeft];
         }
         Arrays.sort(tmp);
-        for(int x = 0; x < loLeft; x++) {
-            result[x] = inputLo[x];
+        if(loLeft > 0) {
+        	for(int x = 0; x < loLeft; x++) {
+        		result[x] = inputLo[x];
+        	}
         }
-        for(int y = 0; y < tmp.length + 1; y++) {
-            result[loLeft + y] = tmp[y];
+        for(int y = loLeft; y < tmp.length + loLeft; y++) {
+            result[y] = tmp[y - loLeft];
         }
-        for(int z = 0; z < result.length; z++) {
-            result[loLeft + tmp.length + z] = inputHi[z];
+        if(inputHi.length - hiRigh - 1 > 0) {
+        	for(int z = loLeft + tmp.length; z < inputHi.length; z++) {
+        		System.out.println(z);
+        		result[z] = inputHi[z - loLeft - tmp.length + hiRigh + 1];
+        	}
         }
         return result;
     }

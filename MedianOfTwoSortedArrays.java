@@ -1,3 +1,7 @@
+/**
+Ok, I need to eliminate duplication with this algorithm, or I got to come up with a new one which could ignoring all duplications and maintain
+that O(log(m+n)) eomplexity.
+**/
 import java.util.Arrays;
 public class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {

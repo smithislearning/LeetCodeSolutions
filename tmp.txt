@@ -1,0 +1,3 @@
+a, b, c, d, c, b, g, h
+
+h, g, b, c, b, c, b, a

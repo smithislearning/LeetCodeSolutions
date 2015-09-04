@@ -1,41 +1,37 @@
-public class LongestPalindromicSubstring {
-	public static void main(String[] args) {
-		String input = "cyyoacmjwjubfkzrrbvquqkwhsxvmytmjvbborrtoiyotobzjmohpadfrvmxuagbdczsjuekjrmcwyaovpiogspbslcppxojgbfxhtsxmecgqjfuvahzpgprscjwwutwoiksegfreortttdotgxbfkisyakejihfjnrdngkwjxeituomuhmeiesctywhryqtjimwjadhhymydlsmcpycfdzrjhstxddvoqprrjufvihjcsoseltpyuaywgiocfodtylluuikkqkbrdxgjhrqiselmwnpdzdmpsvbfimnoulayqgdiavdgeiilayrafxlgxxtoqskmtixhbyjikfmsmxwribfzeffccczwdwukubopsoxliagenzwkbiveiajfirzvngverrbcwqmryvckvhpiioccmaqoxgmbwenyeyhzhliusupmrgmrcvwmdnniipvztmtklihobbekkgeopgwipihadswbqhzyxqsdgekazdtnamwzbitwfwezhhqznipalmomanbyezapgpxtjhudlcsfqondoiojkqadacnhcgwkhaxmttfebqelkjfigglxjfqegxpcawhpihrxydprdgavxjygfhgpcylpvsfcizkfbqzdnmxdgsjcekvrhesykldgptbeasktkasyuevtxrcrxmiylrlclocldmiwhuizhuaiophykxskufgjbmcmzpogpmyerzovzhqusxzrjcwgsdpcienkizutedcwrmowwolekockvyukyvmeidhjvbkoortjbemevrsquwnjoaikhbkycvvcscyamffbjyvkqkyeavtlkxyrrnsmqohyyqxzgtjdavgwpsgpjhqzttukynonbnnkuqfxgaatpilrrxhcqhfyyextrvqzktcrtrsbimuokxqtsbfkrgoiznhiysfhzspkpvrhtewthpbafmzgchqpgfsuiddjkhnwchpleibavgmuivfiorpteflholmnxdwewj";
-		System.out.println(input);
-		String output = longestPalindrome(input);
-		System.out.println(output);
-	}
-	
-
-	public static String longestPalindrome(String s) {
-		String maxSub = "";
-		int maxLength = 0;
-		if(s.length() == 0) {
-			return "Please give me something I can work with";
+public class Solution {
+	public String longestPalindrome(String s) {
+	    		StringBuilder wrkStr = new StringBuilder(s);
+		int i = 0;
+		while(i <= wrkStr.length()) {
+			wrkStr.insert(i, '#');
+			i += 2;
 		}
-		if(s.length() == 1) {
-			return s;
-		}
-		for(int i = 0; i < s.length(); i++) {
-			if(s.lastIndexOf(s.charAt(i)) > i) {
-				String tmpSub = s.substring(i, s.lastIndexOf(s.charAt(i)) + 1);
-				String tmpStr = palindrome(tmpSub);
-				if(tmpStr.length() > maxLength) {
-					maxLength = tmpStr.length();
-					maxSub = tmpStr;
+		int[] pCap = new int[wrkStr.length()];
+		for(int j = 0; j < wrkStr.length(); j++) {
+			for(int k = 0; ;k++) {
+				if(j - k == 0 || j + k == wrkStr.length() - 1) {
+					pCap[j] = k;
+					break;
+				} else if(wrkStr.charAt(j - k) != wrkStr.charAt(j + k)){
+					pCap[j] = k - 1;
+					break;
 				}
 			}
 		}
-		return maxSub;
-	}
-	private static String palindrome(String strIn) {
-		String tmp = strIn;
-		StringBuilder rev = new StringBuilder(strIn);
-		rev.reverse();
-		if(rev.toString().equals(strIn)) {
-			return strIn;
-		} else {
-			return "";
+		int max = 0;
+		int maxIndex = 0;
+		for(int m = 0; m < pCap.length; m++) {
+			if(pCap[m] > max) {
+				max = pCap[m];
+				maxIndex = m;
+			}
 		}
+		StringBuilder rstStr = new StringBuilder(wrkStr.substring(maxIndex - max, maxIndex + max + 1));
+		for(int n = 0; n < rstStr.length(); n++) {
+			if(rstStr.charAt(n) == '#') {
+				rstStr.deleteCharAt(n);
+			}
+		}
+		return rstStr.toString();
 	}
 }

@@ -8,33 +8,28 @@
  */
 public class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode wrk = l1;
-        while(wrk != null) {
-            if(l2 == null) {
-                break;
-            } if(wrk.val == l2.val) {
-                wrk.next.next = wrk.next;
-                wrk.next = new ListNode(l2.val);
-                wrk = wrk.next.next;
-                l2 = l2.next;
-            } else if(wrk.val < l2.val) {
-                if(wrk.next == null) {
-                    wrk.next = l2;
-                } else if(wrk.next.val > l2.val) {
-                    wrk.next.next = wrk.next;
-                    wrk.next = new ListNode(l2.val);
-                    wrk = wrk.next.next;
-                    l2 = l2.next;
-                } else {
-                    wrk = wrk.next;
-                }
+        ListNode p1 = l1;
+        ListNode p2 = l2;
+        ListNode head = new ListNode(0);
+        ListNode wrk = head;
+        
+        while(p1 != null && p2 != null) {
+            if(p1.val <= p2.val) {
+                wrk.next = p1;
+                p1 = p1.next;
             } else {
-                wrk.next = wrk;
-                wrk = new ListNode(l2.val);
-                l2 = l2.next;
+                wrk.next = p2;
+                p2 = p2.next;
             }
+            wrk = wrk.next;
         }
-        wrk = l1;
-        return wrk;
+        
+        if(p1 != null) {
+            wrk.next = p1;
+        }
+        if(p2 != null) {
+            wrk.next = p2;
+        }
+        return head.next;
     }
 }

@@ -1,33 +1,13 @@
-class ListNode {
-     int val;
-     ListNode next;
-     ListNode(int x) { val = x; }
-}
-public class ReverseNodesInKGroup {
-	public static void main(String[] args) {
-		ListNode input = new ListNode(1);
-		input.next = new ListNode(2);
-		input.next.next = new ListNode(3);
-		input.next.next.next = new ListNode(4);
-		input.next.next.next.next = new ListNode(5);
-		input.next.next.next.next.next = new ListNode(6);
-		input.next.next.next.next.next.next = new ListNode(7);
-		ListNode tmp = input;
-		while(tmp != null) {
-			System.out.print(tmp.val + ", ");
-			tmp = tmp.next;
-		}
-		System.out.println("");
-		ListNode output = reverseKGroup(input, 4);
-		tmp = output;
-		System.out.println("output: ");
-		while(tmp != null) {
-			System.out.print(tmp.val + ", ");
-			tmp = tmp.next;
-		}
-		System.out.println("");
-	}
-	public static ListNode reverseKGroup(ListNode head, int k) {
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
 		if(head == null || k == 0 || k == 1) {
 			return head;
 		}
@@ -48,22 +28,26 @@ public class ReverseNodesInKGroup {
 		return wrk.next;
 	}
 	public static ListNode reverseK(ListNode input, int m) {
-		System.out.println("working");
 		if(input == null || m == 0 || m == 1) {
 			return input;
 		}
 		if(m == 2) {
 			return reverseTwo(input);
 		}
+		ListNode itr = input;
+		for(int i = 0; i < m; i++) {
+			if(itr == null) {
+				return input;
+			}
+			itr = itr.next;
+		}
 		input.next = reverseK(input.next, m - 2);
 		ListNode wrk = new ListNode(0);
 		wrk.next = input;
-		ListNode itr = wrk;
+		itr = wrk;
 		System.out.println("itr: " + input.val);
 		for(int i = 0; i < m; i++) {
-			System.out.print(itr.val + ", ");
 			if(itr.next == null) {
-				System.out.println("");
 				return input;
 			} else if(i == m - 1) {
 				break;
@@ -78,21 +62,7 @@ public class ReverseNodesInKGroup {
 		tmp1.next.next = tmp2.next;
 		tmp2.next = tmp3;
 		itr.next = tmp2;
-		ListNode tmp = tmp1;
-		System.out.println("tmp1: ");
-		while(tmp != null) {
-			System.out.print(tmp.val + ", ");
-			tmp = tmp.next;
-		}
-		System.out.println("");
-		tmp = tmp2;
-		System.out.println("tmp2: ");
-		while(tmp != null) {
-			System.out.print(tmp.val + ", ");
-			tmp = tmp.next;
-		}
-		System.out.println("");
-		System.out.println("end");
+
 		return wrk.next;
 	}
 	public static ListNode reverseTwo(ListNode head) {
@@ -113,4 +83,4 @@ public class ReverseNodesInKGroup {
 		}
 		return wrk.next;
 	}
-}		
+}

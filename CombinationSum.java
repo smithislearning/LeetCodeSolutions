@@ -11,23 +11,29 @@ public class Solution {
                 sum += candidates[tail];
                 tmpRst.add(candidates[tail]);
             }
-            if(sum >= target || tail >= candidates.length - 1) {
+            if(sum == target) {
+                HashSet<List<Integer>> wrkSet = new HashSet<List<Integer>>(rst);
+                wrkSet.add(tmpRst);
+                List<List<Integer>> tmp1 = new ArrayList<List<Integer>>(wrkSet);
+                rst.addAll(tmp1);
+            }
+            System.out.println(rst);
+            if(sum > target || tail == candidates.length - 1) {
+                System.out.println(rst);
                 if(candidates.length > 1) {
                     int[] wrk = Arrays.copyOfRange(candidates, 1, candidates.length);
-                    rst = combinationSum(wrk, target);
-                }
-                if(sum == target) {
-                    HashSet<List<Integer>> wrkset = new HashSet<List<Integer>>(rst);
-                    wrkset.add(tmpRst);
-                    rst = new ArrayList<List<Integer>>(wrkset);
+                    System.out.println("before");
+                    System.out.println(rst);
+                    List<List<Integer>> tmp = combinationSum(wrk,target);
+                    rst.addAll(tmp);
+
                 }
                 break;
-            } else {
-                sum -= candidates[tail];
-                tmpRst.remove(tmpRst.size() - 1);
-                tail++;
             }
-        }
-        return rst;
+            sum -= candidates[tail];
+            tmpRst.remove(tmpRst.size() - 1);
+            tail++;
+       }
+       return rst;
     }
 }

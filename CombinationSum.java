@@ -10,6 +10,7 @@ public class Solution {
                 tmpRst.add(candidates[0]);
             }
             if(sum == target) {
+<<<<<<< HEAD
                 rst.add(tmpRst);
             }
             return rst;
@@ -46,5 +47,30 @@ public class Solution {
         HashSet<List<Integer>> rstHsh = new HashSet<List<Integer>>(rst);
         rst = new ArrayList<List<Integer>>(rstHsh);
         return rst;
+=======
+                HashSet<List<Integer>> wrkSet = new HashSet<List<Integer>>(rst);
+                wrkSet.add(tmpRst);
+                List<List<Integer>> tmp1 = new ArrayList<List<Integer>>(wrkSet);
+                rst.addAll(tmp1);
+            }
+            System.out.println(rst);
+            if(sum > target || tail == candidates.length - 1) {
+                System.out.println(rst);
+                if(candidates.length > 1) {
+                    int[] wrk = Arrays.copyOfRange(candidates, 1, candidates.length);
+                    System.out.println("before");
+                    System.out.println(rst);
+                    List<List<Integer>> tmp = combinationSum(wrk,target);
+                    rst.addAll(tmp);
+
+                }
+                break;
+            }
+            sum -= candidates[tail];
+            tmpRst.remove(tmpRst.size() - 1);
+            tail++;
+       }
+       return rst;
+>>>>>>> 507cd96f22714a3e819b41fa0e899908c2b4dfe7
     }
 }

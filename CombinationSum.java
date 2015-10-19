@@ -1,76 +1,61 @@
 public class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        HashSet<List<Integer>> rstHsh = new HashSet<List<Integer>>(combSum(candidates, target));
+        List<List<Integer>> fRst = new ArrayList<List<Integer>>(rstHsh);
+        return fRst;
+    }
+    private List<List<Integer>> combSum(int[] input, int target) {
         List<List<Integer>> rst = new ArrayList<List<Integer>>();
-        List<List<Integer>> tmp = new ArrayList<List<Integer>>();
-        List<Integer> tmpRst = new ArrayList<Integer>();
-        if(candidates.length == 1) {
-            int sum = 0;
-            while(sum < target) {
-                sum += candidates[0];
-                tmpRst.add(candidates[0]);
-            }
-            if(sum == target) {
-<<<<<<< HEAD
-                rst.add(tmpRst);
+        List<Integer> cntnt = new ArrayList<Integer>();
+        if(input.length == 0 || input[0] > target) {
+            return rst;
+        }
+        if(input.length == 1) {
+            if(input[0] != 0 && target % input[0] == 0) {
+                int cnt = target / input[0];
+                for(int i = 0; i < cnt; i++) {
+                    cntnt.add(input[0]);
+                }
+                rst.add(cntnt);
             }
             return rst;
         }
-        int[] tmpwrk = Arrays.copyOfRange(candidates, 0, candidates.length - 1);
-        tmp = combinationSum(tmpwrk, target);
-        if(!tmp.isEmpty()) {
-            rst.addAll(tmp);
+        int[] wrk = Arrays.copyOfRange(input, 1, input.length);
+        List<List<Integer>> tmpRst1 = combSum(wrk, target);
+        if(!tmpRst1.isEmpty()) {
+            rst.addAll(tmpRst1);
         }
-        int trgt = target;
+        if(input[0] != 0 && target % input[0] == 0) {
+            int cnt = target / input[0];
+            for(int i = 0; i < cnt; i++) {
+                cntnt.add(input[0]);
+            }
+            rst.add(cntnt);
+        }
+        int ref = target;
         int cnt = 0;
-        while(trgt > candidates[candidates.length - 1]) {
+        while (ref > 0) {
+            ref -= input[0];
             cnt++;
-            trgt -= candidates[candidates.length - 1];
-            tmp = combinationSum(tmpwrk, trgt);
-            if(!tmp.isEmpty()) {
-                tmpRst.clear();
+            if(ref == 0) {
+                List<Integer> tmpCntnt = new ArrayList<Integer>();
                 for(int i = 0; i < cnt; i++) {
-                    tmpRst.add(candidates[candidates.length - 1]);
+                    tmpCntnt.add(input[0]);
                 }
-                for(int i = 0; i < tmp.size(); i++) {
-                    tmp.get(i).addAll(tmpRst);
+                rst.add(tmpCntnt);
+            } else if(ref > 0) {
+                List<List<Integer>> tmpRst2 = combSum(wrk, ref);
+                if(!tmpRst2.isEmpty()) {
+                    for(int j = 0; j < tmpRst2.size(); j++) {
+                        for(int i = 0; i < cnt; i++) {
+                            tmpRst2.get(j).add(0, input[0]);
+                        }
+                    }
+                    rst.addAll(tmpRst2);
                 }
-                rst.addAll(tmp);
             }
         }
-        if(candidates.length > 1) {
-            int[] tmpwrk2 = Arrays.copyOfRange(candidates, 1, candidates.length);
-            tmp = combinationSum(tmpwrk2, target);
-            if(!tmp.isEmpty()) {
-                rst.addAll(tmp);
-            }
-        }
-        HashSet<List<Integer>> rstHsh = new HashSet<List<Integer>>(rst);
-        rst = new ArrayList<List<Integer>>(rstHsh);
         return rst;
-=======
-                HashSet<List<Integer>> wrkSet = new HashSet<List<Integer>>(rst);
-                wrkSet.add(tmpRst);
-                List<List<Integer>> tmp1 = new ArrayList<List<Integer>>(wrkSet);
-                rst.addAll(tmp1);
-            }
-            System.out.println(rst);
-            if(sum > target || tail == candidates.length - 1) {
-                System.out.println(rst);
-                if(candidates.length > 1) {
-                    int[] wrk = Arrays.copyOfRange(candidates, 1, candidates.length);
-                    System.out.println("before");
-                    System.out.println(rst);
-                    List<List<Integer>> tmp = combinationSum(wrk,target);
-                    rst.addAll(tmp);
-
-                }
-                break;
-            }
-            sum -= candidates[tail];
-            tmpRst.remove(tmpRst.size() - 1);
-            tail++;
-       }
-       return rst;
->>>>>>> 507cd96f22714a3e819b41fa0e899908c2b4dfe7
     }
 }

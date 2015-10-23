@@ -4,7 +4,7 @@ public class Solution {
             return 0;
         }
         int rst = 0;
-        int m = grid.length;
+        int m = grid.length;                              
         int n = grid[0].length;
         if(m == 1) {
             for(int j = 0; j < n; j++) {

@@ -1,0 +1,16 @@
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    var rst = [];
+    for(var i = 0; i < nums.length; i ++) {
+        var j = nums.lastIndexOf(target - nums[i]);
+        if(j > i) {
+            rst.push(i);
+            rst.push(j);
+        }
+    }
+    return rst;
+};

@@ -1,0 +1,34 @@
+/**
+ * @param {string} s
+ * @param {number} numRows
+ * @return {string}
+ */
+var convert = function(s, numRows) {
+    if(typeof s !== 'string' || !Number.isInteger(numRows)) {
+        return "";
+    }
+    if(s.length === 0 || numRows < 2) {
+        return s;
+    }
+    var rst = "";
+    var distance = 2 * numRows - 2;
+    for(var i = 0; i < numRows; i ++) {
+        var idx = i;
+        var count = 0;
+        while(idx < s.length) {
+            rst += s.charAt(idx);
+            if(count % 2 === 0 || distance === 2 * numRows - 2) {
+                idx += distance;
+            } else {
+                idx += 2 * numRows - 2 - distance;
+            }
+            count ++;
+        }
+        distance -= 2;
+        if(distance < 2) {
+            distance = 2 * numRows - 2;
+        }
+    }
+    console.log(rst);
+    return rst;
+};

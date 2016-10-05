@@ -1,0 +1,49 @@
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+var findMedianSortedArrays = function(nums1, nums2) {
+    if(!Array.isArray(nums1) || !Array.isArray(nums2)) {
+        return NaN;
+    }
+    if(nums1.length === 0 && nums2.length === 0) {
+        return 0;
+    }
+    var combinedLen = nums1.length + nums2.length;
+    if(combinedLen % 2 === 1) {
+        return findKth(nums1, 0, nums2, 0, Math.floor(combinedLen / 2) + 1);
+    }
+    return (findKth(nums1, 0, nums2, 0, combinedLen / 2) + findKth(nums1, 0, nums2, 0, combinedLen / 2 + 1)) / 2;
+};
+
+var findKth = function(nums1, init1, nums2, init2, k) {
+    if(init1 >= nums1.length) {
+        return nums2[init2 + k - 1];
+    }
+    if(init2 >= nums2.length) {
+        return nums1[init1 + k - 1];
+    }
+    if(k === 1) {
+        console.log(Math.min(nums1[init1], nums2[init2]));
+        return Math.min(nums1[init1], nums2[init2]);
+    }
+    var val1 = 0;
+    var val2 = 0;
+    var tmp = Math.floor(k / 2);
+    if(init1 + tmp - 1 < nums1.length) {
+        val1 = nums1[init1 + tmp - 1];
+    } else {
+        val1 = Math.floor(Number.MAX_VALUE);
+    }
+    if(init2 + tmp - 1 < nums2.length) {
+        val2 = nums2[init2 + tmp - 1];
+    } else {
+        val2 = Math.floor(Number.MAX_VALUE);
+    }
+    if(val1 < val2) {
+        return findKth(nums1, init1 + tmp, nums2, init2, k - tmp);
+    } else {
+        return findKth(nums1, init1, nums2, init2 + tmp, k - tmp);
+    }
+};

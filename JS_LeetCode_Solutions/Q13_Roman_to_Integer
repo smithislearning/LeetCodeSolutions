@@ -1,0 +1,24 @@
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var romanToInt = function(s) {
+    if(s.length === 0) {
+        return 0;
+    }
+    var ref = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000};
+    var rst = ref[s.charAt(s.length - 1)];
+    if(s.length < 2) {
+        return rst;
+    }
+    for(var i = s.length - 2; i > -1; i --) {
+        var crrt = s.charAt(i);
+        var nxt = s.charAt(i + 1);
+        if(ref[crrt] >= ref[nxt]) {
+            rst += ref[crrt];
+        } else {
+            rst -= ref[crrt];
+        }
+    }
+    return rst;
+};

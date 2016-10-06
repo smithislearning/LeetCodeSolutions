@@ -1,0 +1,68 @@
+/**
+ * @param {number} num
+ * @return {string}
+ */
+var intToRoman = function(num) {
+    var rst = "";
+    var i = 0;
+    if(num >= 1000) {
+        for(i = 0; i < Math.floor(num / 1000); i ++) {
+            rst += 'M';
+        }
+        num %= 1000;
+    }
+    if(num >= 900) {
+        rst += "CM";
+        num -= 900;
+    }
+    if(num >= 500) {
+        rst += "D";
+        num -= 500;
+    }
+    if(num >= 400) {
+        rst += "CD";
+        num -= 400;
+    }
+    if(num >= 100) {
+        for(i = 0; i < Math.floor(num / 100); i ++) {
+            rst += "C";
+        }
+        num %= 100;
+    }
+    if(num >= 90) {
+        rst += "XC";
+        num -= 90;
+    }
+    if(num >= 50) {
+        rst += "L";
+        num -= 50;
+    }
+    if(num >= 40) {
+        rst += "XL";
+        num -= 40;
+    }
+    if(num >= 10) {
+        for(i = 0; i < Math.floor(num / 10); i ++) {
+            rst += "X";
+        }
+        num %= 10;
+    }
+    if(num === 9) {
+        rst += "IX";
+        num -= 9;
+    }
+    if(num >= 5) {
+        rst += "V";
+        num -= 5;
+    }
+    if(num === 4) {
+        rst += "IV";
+        num -= 4;
+    }
+    if(num > 0) {
+        for(i = 0; i < num; i ++) {
+            rst += "I";
+        }
+    }
+    return rst;
+};

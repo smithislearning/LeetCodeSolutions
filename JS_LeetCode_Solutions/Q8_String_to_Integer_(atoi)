@@ -1,0 +1,46 @@
+/**
+ * @param {string} str
+ * @return {number}
+ */
+var myAtoi = function(str) {
+    var idx = 0;
+    str = str.trim();
+    var flag = false;
+    if(str.charAt(0) === '-' || str.charAt(0) === '+') {
+        flag = true;
+        idx ++;
+    }
+    while(idx < str.length) {
+        switch(str.charAt(idx)) {
+            case "0":
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+                break;
+            default:
+                var tail = idx;
+                idx = str.length;
+                break;
+        }
+        idx ++;
+    }
+    var rst = Number(str.substring(0, tail));
+    if(Number.isNaN(rst)) {
+        return 0;
+    }
+    var OJUB = Math.pow(2, 31) - 1;
+    if(rst > OJUB) {
+        return OJUB;
+    }
+    var OJLB = -Math.pow(2, 31);
+    if(rst < OJLB) {
+        return OJLB;
+    }
+    return rst;
+};

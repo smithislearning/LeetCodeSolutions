@@ -1,0 +1,30 @@
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var reverse = function(x) {
+    if(typeof x !== 'number' || Number.isNaN(x)) {
+        return 0;
+    }
+    if(x > -10 && x < 10) {
+        return x;
+    }
+    var sign = 1;
+    if(x < 0) {
+        sign = -1;
+    }
+    x = Math.abs(x);
+    var str = x.toString();
+    str = reverseStr(str);
+    var rst = Number(str);
+    rst *= sign;
+    return rst;
+};
+
+var reverseStr = function(str) {
+    var rst = "";
+    for(var i = str.length - 1; i > -1; i --) {
+        rst += str.charAt(i);
+    }
+    return rst;
+};

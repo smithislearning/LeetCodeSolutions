@@ -1,0 +1,23 @@
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var maxArea = function(height) {
+    var volume = 0;
+    if(!Array.isArray(height) || height.length < 2) {
+        return volume;
+    }
+    var init = 0;
+    var tail = height.length - 1;
+    var tmp = 0;
+    while(init < tail) {
+        tmp = Math.min(height[init], height[tail]) * (tail - init);
+        volume = Math.max(volume, tmp);
+        if(height[init] < height[tail]) {
+            init ++;
+        } else {
+            tail --;
+        }
+    }
+    return volume;
+};

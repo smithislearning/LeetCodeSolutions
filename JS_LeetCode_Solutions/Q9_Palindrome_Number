@@ -1,0 +1,44 @@
+/**
+ * @param {number} x
+ * @return {boolean}
+ */
+var isPalindrome = function(x) {
+    if(x < 0) {
+        return false;
+    }
+    var ref = reverseNum(x);
+    if(ref === x) {
+        return true;
+    }
+    return false;
+};
+
+var reverseNum = function(x) {
+    if(typeof x !== 'number' || Number.isNaN(x)) {
+        return 0;
+    }
+    if(x > -10 && x < 10) {
+        return x;
+    }
+    var sign = 1;
+    if(x < 0) {
+        sign = -1;
+    }
+    x = Math.abs(x);
+    var str = x.toString();
+    str = reverseStr(str);
+    var rst = Number(str);
+    rst *= sign;
+    if(rst > Math.pow(2, 31) - 1 || rst < -Math.pow(2, 31)) {
+        return 0;
+    }
+    return rst;
+};
+
+var reverseStr = function(str) {
+    var rst = "";
+    for(var i = str.length - 1; i > -1; i --) {
+        rst += str.charAt(i);
+    }
+    return rst;
+};

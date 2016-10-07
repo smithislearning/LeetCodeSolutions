@@ -1,0 +1,25 @@
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+var longestCommonPrefix = function(strs) {
+    if(strs.length < 1) {
+        return '';
+    }
+    if(strs.length < 2) {
+        return strs[0];
+    }
+    strs.sort(function(a, b) {
+        return a.length - b.length;
+    });
+    var prefix = strs[0];
+    var idx = 1;
+    while(idx < strs.length) {
+        if(!strs[idx].startsWith(prefix)) {
+            prefix = prefix.slice(0, -1);
+        } else {
+            idx ++;
+        }
+    }
+    return prefix;
+};

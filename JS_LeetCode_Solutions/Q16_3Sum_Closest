@@ -1,0 +1,36 @@
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var threeSumClosest = function(nums, target) {
+    if(!Array.isArray(nums) || nums.length < 3) {
+        return NaN;
+    }
+    var rst = Number.MAX_VALUE;
+    var head = 0;
+    while(head < nums.length - 2) {
+        if(head > 0 && nums[head] === nums[head - 1]) {
+            head ++;
+            continue;
+        }
+        var tmp = nums[head];
+        for(var mid = head + 1; mid < nums.length - 1; mid ++) {
+            if(mid > head + 1 && nums[mid] === nums[mid - 1]) {
+                continue;
+            }
+            tmp += nums[mid];
+            for(var tail = mid + 1; tail < nums.length; tail ++) {
+                if(tail > mid + 1 && nums[tail] === nums[tail -1]) {
+                    continue;
+                }
+                tmp += nums[tail];
+                rst = (Math.abs(tmp - target) < Math.abs(rst - target)) ? tmp : rst;
+                tmp -= nums[tail];
+            }
+            tmp -= nums[mid];
+        }
+        head ++;
+    }
+    return rst;
+};

@@ -1,0 +1,43 @@
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[][]}
+ */
+var fourSum = function(nums, target) {
+    if(!Array.isArray(nums) || nums.length < 4) {
+        return [];
+    }
+    nums.sort(function(a, b) {
+        return a - b;
+    })
+    var rst = [];
+    for(var i = 0; i < nums.length - 3; i ++) {
+        if(i > 0 && nums[i] === nums[i - 1]) {
+            continue;
+        }
+        for(var j = i + 1; j < nums.length - 2; j ++) {
+            if(j > i + 1 && nums[j] === nums[j - 1]) {
+                continue;
+            }
+            var k = j + 1;
+            var l = nums.length - 1;
+            while(k < nums.length - 1 && k < l) {
+                if(k > j + 1 && nums[k] === nums[k - 1]) {
+                    k ++;
+                    continue;
+                }
+                var tmp = nums[i] + nums[j] + nums[k] + nums[l];
+                if(tmp > target) {
+                    l --;
+                } else if(tmp === target) {
+                    rst.push([nums[i], nums[j], nums[k], nums[l]]);
+                    k ++;
+                    l --;
+                } else {
+                    k ++;
+                }
+            }
+        }
+    }
+    return rst;
+};

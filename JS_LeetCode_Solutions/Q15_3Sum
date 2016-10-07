@@ -1,0 +1,52 @@
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var threeSum = function(nums) {
+    var rst = [];
+    if(!Array.isArray(nums) || nums.length < 3) {
+        return rst;
+    }
+    nums.sort(function(a, b) {
+        return a - b;
+    });
+    if(nums[0] > 0) {
+        return rst;
+    }
+    var cntnt = [];
+    var head = 0;
+    while(head < nums.length - 2 && nums[head] <= 0) {
+        if(head > 0 && nums[head] === nums[head - 1]) {
+            head ++;
+            continue;
+        }
+        for(var mid = head + 1; mid < nums.length - 1; mid ++) {
+            if(mid > head + 1 && nums[mid] === nums[mid - 1]) {
+                continue;
+            }
+            var tmp = nums[mid] + nums[head];
+            if(tmp > 0) {
+                break;
+            }
+            for(var tail = mid + 1; tail < nums.length ; tail ++) {
+                if(tail > mid + 1 && nums[tail] === nums[tail - 1]) {
+                    continue;
+                }
+                tmp += nums[tail];
+                if(tmp === 0) {
+                    cntnt.push(nums[head]);
+                    cntnt.push(nums[mid]);
+                    cntnt.push(nums[tail]);
+                    rst.push(cntnt);
+                    cntnt = [];
+                }
+                if(tmp > 0) {
+                    break;
+                }
+                tmp -= nums[tail];
+            }
+        }
+        head ++;
+    }
+    return rst;
+};

@@ -1,0 +1,21 @@
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isValid = function(s) {
+    if(typeof s !== 'string' || s.length < 2) {
+        return false;
+    }
+    var ref = {'(': ')', '[': ']', '{': '}'};
+    var refL = s.charAt(0);
+    var refR = s.substring(1, s.length);
+    while(refR.length > 0) {
+        if(refR.charAt(0) === ref[refL.charAt(refL.length - 1)]) {
+            refL = refL.substring(0, refL.length - 1);
+        } else {
+            refL += refR.charAt(0);
+        }
+        refR = refR.substring(1, refR.length);
+    }
+    return refL.length === 0;
+};

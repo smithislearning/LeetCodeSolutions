@@ -1,0 +1,41 @@
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function(n) {
+    var rst = [];
+    if(n <= 0) {
+        return rst;
+    }
+    if(n === 1) {
+        rst.push("()");
+        return rst;
+    }
+    var tmp = {};
+    var prev = generateParenthesis(n - 1);
+    prev.forEach(function(element) {
+        tmp["(" + element + ")"] = true;
+    });
+    var i = 1;
+    while(i <= Math.floor(n / 2)) {
+        prev = generateParenthesis(i);
+        var prev1 = generateParenthesis(n - i);
+        for(var j = 0; j < prev.length; j ++) {
+            for(var k = 0; k < prev1.length; k ++) {
+                var ref1 = prev[j] + prev1[k];
+                var ref2 = prev1[k] + prev[j];
+                if(typeof tmp.ref1 === 'undefined') {
+                    tmp[ref1] = true;
+                }
+                if(typeof tmp.ref2 === 'undefined') {
+                    tmp[ref2] = true;
+                }
+            }
+        }
+        i ++;
+    }
+    for(var key in tmp) {
+        rst.push(key);
+    }
+    return rst;
+};

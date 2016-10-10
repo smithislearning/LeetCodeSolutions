@@ -1,0 +1,38 @@
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var longestPalindrome = function(s) {
+    if(typeof s !== 'string' || s.length === 0) {
+        return 0;
+    }
+    if(s.length === 1) {
+        return 1;
+    }
+    var ref = {};
+    for(var i = 0; i < s.length; i ++) {
+        if(typeof ref[s.charAt(i)] === 'undefined') {
+            ref[s.charAt(i)] = 1;
+        } else {
+            ref[s.charAt(i)] += 1;
+        }
+    }
+    var evenCnt = 0;
+    var oddCnt = 0;
+    for (var element in ref) {
+        if(ref[element] % 2 === 0) {
+            evenCnt += ref[element];
+        } else {
+            if(oddCnt === 0) {
+                oddCnt = ref[element];
+            } else {
+                if(evenCnt + ref[element] > evenCnt + oddCnt + ref[element] - 1) {
+                    oddCnt = ref[element];
+                } else {
+                    oddCnt += ref[element] - 1;
+                }
+            }
+        }
+    }
+    return evenCnt + oddCnt;
+};

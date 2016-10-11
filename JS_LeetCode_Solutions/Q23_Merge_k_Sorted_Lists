@@ -1,0 +1,43 @@
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */
+var mergeKLists = function(lists) {
+    if(!Array.isArray(lists) || lists.length === 0) {
+        return null;
+    }
+    if(lists.length === 1) {
+        return lists[0];
+    }
+    var dummy = new ListNode(0);
+    var wrk = dummy;
+    var crrt = wrk.next;
+    lists.forEach(function(ref) {
+        while(crrt !== null && ref !== null) {
+            if(crrt.val < ref.val) {
+                wrk.next = crrt;
+                crrt = crrt.next;
+            } else {
+                wrk.next = ref;
+                ref = ref.next;
+            }
+            wrk = wrk.next;
+        }
+        if(crrt !== null) {
+            wrk.next = crrt;
+        }
+        if(ref !== null) {
+            wrk.next = ref;
+        }
+        wrk = dummy;
+        crrt = wrk.next;
+    })
+    return dummy.next;
+};

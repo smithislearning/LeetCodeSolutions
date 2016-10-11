@@ -1,0 +1,58 @@
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function(nums) {
+    if(!Array.isArray(nums) || nums.length === 0) {
+        return 0;
+    }
+    if(nums.length === 1) {
+        return 1;
+    }
+    var tmp = nums[0];
+    var cnt = 1;
+    for(var i = 1; i < nums.length; i ++) {
+        if(nums[i] === tmp) {
+            nums[i] = NaN;
+        } else {
+            tmp = nums[i];
+            cnt ++;
+        }
+    }
+    i = 0;
+    var ref = -1;
+    var j = -1;
+    while(i < nums.length) {
+        if(Number.isNaN(nums[i])) {
+            j = i;
+            while(j < nums.length && Number.isNaN(nums[j])) {
+                j ++;
+            }
+            if(j < nums.length && !Number.isNaN(nums[j])) {
+                ref = j;
+                break;
+            }
+        }
+        i ++;
+    }
+    if(ref === 0) {
+        return cnt;
+    }
+    while(i < nums.length) {
+        if(Number.isNaN(nums[i]) && ref > -1) {
+            nums[i] = nums[ref];
+            nums[ref] = NaN;
+            j = ref;
+            ref = -1;
+            while(j < nums.length && Number.isNaN(nums[j])) {
+                j ++;
+            }
+            if(j < nums.length && !Number.isNaN(nums[j])) {
+                ref = j;
+            }
+        }
+        i ++;
+    }
+//    console.log(nums);
+    return cnt;
+};

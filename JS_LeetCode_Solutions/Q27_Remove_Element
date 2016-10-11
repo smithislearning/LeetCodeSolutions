@@ -1,0 +1,31 @@
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement = function(nums, val) {
+    if(!Array.isArray(nums) || typeof val !== 'number') {
+        return -1;
+    }
+    var i = 0;
+    while(i < nums.length) {
+        if(nums[i] === val) {
+            nums[i] = NaN;
+        }
+        i ++;
+    }
+    nums.sort(function(a, b) {
+        if(Number.isNaN(a)) {
+            return 1;
+        }
+        if(Number.isNaN(b)) {
+            return -1;
+        }
+        return a - b;
+    });
+    i = 0;
+    while(i < nums.length && !Number.isNaN(nums[i])) {
+        i ++;
+    }
+    return i;
+};

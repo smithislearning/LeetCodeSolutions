@@ -1,0 +1,38 @@
+/**
+ * @constructor
+ */
+var LRUCache = function(capacity) {
+    this.cap = capacity;
+    this.track = [];
+    this.store = {};
+};
+
+/**
+ * @param {number} key
+ * @returns {number}
+ */
+LRUCache.prototype.get = function(key) {
+    if(typeof this.store[key] === 'undefined') {
+        return -1;
+    }
+    this.track.splice(this.track.indexOf(key), 1);
+    this.track.push(key);
+    return this.store[key];
+};
+
+/**
+ * @param {number} key
+ * @param {number} value
+ * @returns {void}
+ */
+LRUCache.prototype.set = function(key, value) {
+    if(typeof this.store[key] !== 'undefined') {
+        this.track.splice(this.track.indexOf(key), 1);
+    }
+    this.store[key] = value;
+    this.track.push(key);
+    while(this.track.length > this.cap) {
+        delete this.store[this.track[0]];
+        this.track.shift();
+    }
+};

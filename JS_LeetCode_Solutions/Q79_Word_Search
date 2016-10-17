@@ -1,0 +1,41 @@
+/**
+ * @param {character[][]} board
+ * @param {string} word
+ * @return {boolean}
+ */
+var exist = function(board, word) {
+    for(var i = 0; i < board.length; i ++) {
+        for(var j = 0; j < board[0].length; j ++) {
+            if(isMatch(i, j, 0, board, word)) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
+var isMatch = function(i, j, idx, board, word) {
+    if(board[i][j] !== word.charAt(idx)) {
+        return false;
+    }
+    idx ++;
+    if(idx === word.length) {
+        return true;
+    }
+    var tmp = board[i][j];
+    board[i][j] = '\0';
+    if(i > 0 && isMatch(i - 1, j, idx, board, word)) {
+        return true;
+    }
+    if(i < board.length - 1 && isMatch(i + 1, j, idx, board, word)) {
+        return true;
+    }
+    if(j > 0 && isMatch(i, j - 1, idx, board, word)) {
+        return true;
+    }
+    if(j < board[i].length - 1 && isMatch(i, j + 1, idx, board, word)) {
+        return true;
+    }
+    board[i][j] = tmp;
+    return false;
+}

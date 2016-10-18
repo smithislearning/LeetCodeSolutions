@@ -1,0 +1,57 @@
+/**
+ * @param {string[]} words
+ * @return {number[][]}
+ */
+var palindromePairs = function(words) {
+    var hash = {};
+    var rst = [];
+    for(var i = 0; i < words.length; i ++) {
+        hash[words[i]] = i;
+    }
+    for(i = 0; i < words.length; i ++) {
+        var word = words[i];
+        if(word === '') {
+            continue;
+        }
+        var cntnt = [];
+        if(isPalindrom(word) && words.includes('')) {
+            var emp = words.indexOf('');
+            cntnt = [i, emp];
+            rst.push(cntnt);
+            cntnt = [emp, i];
+            rst.push(cntnt);
+        }
+        var rev = reverse(word);
+        if(words.includes(rev) && words.indexOf(rev) !== i) {
+            cntnt = [i, words.indexOf(rev)];
+            rst.push(cntnt);
+        }
+        for(var j = 1; j < word.length; j ++) {
+            var left = word.substring(0, j);
+            var right = word.substring(j, word.length);
+            var rLeft = reverse(left);
+            var rRight = reverse(right);
+            if(right === rRight && typeof hash[rLeft] !== 'undefined') {
+                cntnt = [i, hash[rLeft]];
+                rst.push(cntnt);
+            }
+            if(left === rLeft && typeof hash[rRight] !== 'undefined') {
+                cntnt = [hash[rRight], i];
+                rst.push(cntnt);
+            }
+        }
+    }
+    return rst;
+};
+
+var reverse = function(str) {
+    var rst = '';
+    for(var i = str.length - 1; i >= 0; i --) {
+        rst += str.charAt(i);
+    }
+    return rst;
+}
+
+var isPalindrom = function(str) {
+    return str === reverse(str);
+}

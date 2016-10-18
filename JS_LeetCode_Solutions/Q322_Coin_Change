@@ -1,0 +1,27 @@
+/**
+ * @param {number[]} coins
+ * @param {number} amount
+ * @return {number}
+ */
+var coinChange = function(coins, amount) {
+    if(!Array.isArray(coins) || !Number.isInteger(amount)) {
+        return -1;
+    }
+    if(amount === 0) {
+        return 0;
+    }
+    var dp = [];
+    dp[0] = 0;
+    for(var i = 1; i <= amount; i ++) {
+        dp[i] = Number.MAX_SAFE_INTEGER;
+        coins.forEach(function(coin) {
+            if(coin <=i && dp[i - coin] !== -1) {
+                dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
+            }
+        });
+        if(dp[i] === Number.MAX_SAFE_INTEGER) {
+            dp[i] = -1;
+        }
+    }
+    return dp[amount];
+};

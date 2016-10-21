@@ -1,0 +1,77 @@
+/**
+ * @param {string[]} words
+ * @return {string}
+ */
+var alienOrder = function(words) {
+    if(!Array.isArray(words) || words.length === 0) {
+        return "";
+    }
+    if(words.length === 1) {
+        return words[0];
+    }
+    var map = {};
+    var refSet = new Set();
+    var indegree = [];
+    for(var i = 0; i< 26; i ++) {
+        indegree[i] = 0;
+    }
+    words.forEach(function(word) {
+        for(i = 0; i < word.length; i ++) {
+            refSet.add(word.charAt(i));
+        }
+    });
+    for(i = 1; i < words.length; i ++) {
+        var pre = words[i - 1];
+        var crt = words[i];
+        var len = Math.min(pre.length, crt.length);
+        var isDiff = true;
+        for(var j = 0; j < len; j ++) {
+            var c1 = pre.charAt(j);
+            var c2 = crt.charAt(j);
+            if(c1 === c2) {
+                isDiff = false;
+                continue;
+            }
+            if(typeof map[c1] === 'undefined') {
+                map[c1] = new Set();
+            }
+            if(!map[c1].has(c2)) {
+                map[c1].add(c2);
+                indegree[c2.charCodeAt(0) - 'a'.charCodeAt(0)] ++;
+            }
+            isDiff = true;
+            break;
+        }
+        if(!isDiff && pre.length > crt.length) {
+            return "";
+        }
+    }
+    var queue = [];
+    var itr = refSet.values();
+    var val = itr.next().value;
+    while(typeof val !== 'undefined') {
+        if(indegree[val.charCodeAt(0) - 'a'.charCodeAt(0)] === 0) {
+            queue.push(val);
+        }
+        val = itr.next().value;
+    }
+    var rst = '';
+    i = 0;
+    while(i < queue.length) {
+        var c = queue[i];
+        rst += c;
+        if(typeof map[c] !== 'undefined') {
+            itr = map[c].values();
+            val = itr.next().value;
+            while(typeof val !== 'undefined') {
+                indegree[val.charCodeAt(0) - 'a'.charCodeAt(0)] --;
+                if(indegree[val.charCodeAt(0) - 'a'.charCodeAt(0)] === 0) {
+                    queue.push(val);
+                }
+                val = itr.next().value;
+            }
+        }
+        i ++;
+    }
+    return (rst.length === refSet.size) ? rst : '';
+};

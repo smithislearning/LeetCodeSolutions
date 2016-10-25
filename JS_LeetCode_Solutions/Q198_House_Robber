@@ -4,12 +4,10 @@
  */
 var rob = function(nums) {
     var ref = [];
-    var rst = [];
     ref[0] = 0;
     ref[1] = nums[0];
     for(var i = 2; i <= nums.length; i ++) {
         ref[i] = Math.max(ref[i - 1], ref[i - 2] + nums[i - 1]);
     }
-    console.log(rst);
     return ref[nums.length];
 };

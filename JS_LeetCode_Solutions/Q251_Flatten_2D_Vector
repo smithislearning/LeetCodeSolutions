@@ -6,7 +6,7 @@ var Vector2D = function(vec2d) {
     var dat = [];
     vec2d.forEach(function(arry) {
         dat = dat.concat(arry);
-    })
+    });
     this.data = dat;
     this.idx = 0;
 };

@@ -1,0 +1,25 @@
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var firstUniqChar = function(s) {
+    var cnt = {};
+    var ref = {};
+    for(var i = 0; i < s.length; i ++) {
+        var char = s.charAt(i);
+        if(typeof cnt[char] === 'undefined') {
+            cnt[char] = 0;
+        }
+        cnt[char] ++;
+        if(typeof ref[char] === 'undefined') {
+            ref[char] = i;
+        }
+    }
+    var min = Number.MAX_SAFE_INTEGER;
+    for(var c in cnt) {
+        if(cnt[c] === 1 && ref[c] <= min) {
+            min = ref[c];
+        }
+    }
+    return (min === Number.MAX_SAFE_INTEGER) ? -1 : min;
+};

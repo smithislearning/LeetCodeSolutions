@@ -1,0 +1,101 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+
+/**
+ * Encodes a tree to a single string.
+ *
+ * @param {TreeNode} root
+ * @return {string}
+ */
+var serialize = function(root) {
+    if(root === null) {
+        return '';
+    }
+    var crt = [];
+    var nxt = [];
+    crt.push(root);
+    var idx = 0;
+    var rstAry = [];
+    while(idx < crt.length) {
+        var tmp = crt[idx];
+        if(tmp === null) {
+            rstAry.push(null);
+        } else {
+            rstAry.push(tmp.val);
+            nxt.push(tmp.left);
+            nxt.push(tmp.right);
+        }
+        idx ++;
+        if(idx === crt.length && nxt.length !== 0) {
+            crt = nxt;
+            nxt = [];
+            idx = 0;
+        }
+    }
+    while(rstAry[rstAry.length - 1] === null) {
+        rstAry.pop();
+    }
+    // console.log(rstAry);
+    return rstAry.toString();
+};
+
+/**
+ * Decodes your encoded data to tree.
+ *
+ * @param {string} data
+ * @return {TreeNode}
+ */
+var deserialize = function(data) {
+    if(data.length === 0) {
+        return null;
+    }
+    console.log(data);
+    var input = data.split(',');
+    var root = new TreeNode(Number(input[0]));
+    var i = 0;
+    var j = 1;
+    var crt = [];
+    var nxt = [];
+    crt.push(root);
+    while(i < crt.length && j < input.length) {
+        var tmp = crt[i];
+        if(tmp !== null) {
+            if(input[j] !== '') {
+                tmp.left = new TreeNode(Number(input[j]));
+                nxt.push(tmp.left);
+            } else {
+                tmp.left = null;
+                nxt.push(null);
+            }
+            j ++;
+            if(j >= input.length) {
+                break;
+            }
+            if(input[j] !== '') {
+                tmp.right = new TreeNode(Number(input[j]));
+                nxt.push(tmp.right);
+            } else {
+                tmp.right = null;
+                nxt.push(null);
+            }
+            j ++;
+        }
+        i ++;
+        if(i >= crt.length && nxt.length !== 0) {
+            crt = nxt;
+            nxt = [];
+            i = 0;
+        }
+    }
+    return root;
+};
+
+/**
+ * Your functions will be called as such:
+ * deserialize(serialize(root));
+ */

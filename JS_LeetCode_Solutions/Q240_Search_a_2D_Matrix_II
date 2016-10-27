@@ -1,0 +1,28 @@
+/**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {boolean}
+ */
+var searchMatrix = function(matrix, target) {
+    var flag = false;
+    matrix.forEach(function(arry) {
+        flag = flag || binarySearch(0, arry.length, arry, target);
+    });
+    return flag;
+};
+var binarySearch = function(init, tail, arry, target) {
+    if(init >= tail) {
+        return false;
+    }
+    if(arry[init] === target) {
+        return true;
+    }
+    if(target > arry[tail - 1] || target < arry[init]) {
+        return false;
+    }
+    var mid = Math.floor((init + tail) / 2);
+    if(mid > 0 && target > arry[mid - 1]) {
+        return binarySearch(mid, tail, arry, target);
+    }
+    return binarySearch(init, mid, arry, target);
+};

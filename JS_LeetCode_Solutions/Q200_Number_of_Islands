@@ -1,0 +1,39 @@
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
+var numIslands = function(grid) {
+    if(!Array.isArray(grid) || grid.length === 0) {
+        return 0;
+    }
+    var cnt = 0;
+    for(var i = 0; i < grid.length; i ++) {
+        for(var j = 0; j < grid[i].length; j ++) {
+            if(grid[i][j] === '1') {
+                cnt ++;
+                proc(i, j, grid);
+            }
+        }
+    }
+    for(i = 0; i < grid.length; i ++) {
+        for(j = 0; j < grid[i].length; j ++) {
+            grid[i][j] = (grid[i][j] === '\0') ? '1' : grid[i][j];
+        }
+    }
+    return cnt;
+};
+var proc = function(i, j, grid) {
+    grid[i][j] = '\0';
+    if(i > 0 && grid[i - 1][j] === '1') {
+        proc(i - 1, j, grid);
+    }
+    if(i < grid.length - 1 && grid[i + 1][j] === '1') {
+        proc(i + 1, j, grid);
+    }
+    if(j > 0 && grid[i][j - 1] === '1') {
+        proc(i, j - 1, grid);
+    }
+    if(j < grid[i].length - 1 && grid[i][j + 1] === '1') {
+        proc(i, j + 1, grid);
+    }
+}

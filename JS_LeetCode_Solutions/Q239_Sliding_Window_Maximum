@@ -1,0 +1,43 @@
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var maxSlidingWindow = function(nums, k) {
+    if(k === 0) {
+        return [];
+    }
+    if(k === 1) {
+        return nums;
+    }
+    var rst = []
+    var max = Number.MIN_SAFE_INTEGER;
+    var maxIdx = -1;
+    var idx = 0;
+    while(idx < k) {
+        if(nums[idx] > max) {
+            max = nums[idx];
+            maxIdx = idx;
+        }
+        idx ++;
+    }
+    rst.push(max);
+    while(idx < nums.length) {
+        if(nums[idx] > max) {
+            max = nums[idx];
+            maxIdx = idx;
+        } else if(idx >= maxIdx + k) {
+            max = Number.MIN_SAFE_INTEGER;
+            var tmp = maxIdx;
+            for(var i = tmp + 1; i <= tmp + k; i ++) {
+                if(nums[i] > max) {
+                    max = nums[i];
+                    maxIdx = i;
+                }
+            }
+        }
+        rst.push(max);
+        idx ++;
+    }
+    return rst;
+};

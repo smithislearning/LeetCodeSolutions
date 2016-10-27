@@ -4,13 +4,18 @@
  * @return {number[]}
  */
 var twoSum = function(nums, target) {
-    var rst = [];
+    if(!Array.isArray(nums) || nums.length < 2) {
+        return [];
+    }
+    var hash = {};
     for(var i = 0; i < nums.length; i ++) {
-        var j = nums.lastIndexOf(target - nums[i]);
-        if(j > i) {
-            rst.push(i);
-            rst.push(j);
+        hash[nums[i]] = i;
+    }
+    for(i = 0; i < nums.length; i ++) {
+        var tmp = target - nums[i];
+        if(typeof hash[tmp] !== 'undefined' && hash[tmp] !== i) {
+            return [i, hash[tmp]];
         }
     }
-    return rst;
+    return [];
 };

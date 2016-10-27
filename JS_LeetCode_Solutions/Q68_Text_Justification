@@ -4,82 +4,80 @@
  * @return {string[]}
  */
 var fullJustify = function(words, maxWidth) {
+    if(!Array.isArray(words) || words.length === 0 || !Number.isInteger(maxWidth)) {
+        return [];
+    }
+    var maxLen = 0;
+    var totalLen = 0;
+    words.forEach(function(word) {
+        maxLen = Math.max(maxLen, word.length);
+        totalLen += word.length;
+    });
+    totalLen += words.length - 1;
+    if(maxLen > maxWidth) {
+        return [];
+    }
     var rst = [];
-    if(!Array.isArray(words) || words.length === 0 || !Number.isInteger(maxWidth) || maxWidth === 0) {
-        rst.push('');
+    var cntnt = "";
+    if(totalLen <= maxWidth) {
+        words.forEach(function(word) {
+            cntnt += word;
+            cntnt += ' ';
+        });
+        cntnt = cntnt.substring(0, cntnt.length - 1);
+        while(cntnt.length < maxWidth) {
+            cntnt += ' ';
+        }
+        rst.push(cntnt);
         return rst;
     }
-    var str = '';
-    if(words.length === 1) {
-        str = words[0];
-        while(str.length < maxWidth) {
-            str += ' ';
+    var len = words[0].length;
+    var idx = 0;
+    while(len < maxWidth) {
+        idx ++;
+        len ++;
+        len += words[idx].length;
+    }
+    if(len === maxWidth) {
+        cntnt = words[0];
+        for(var i = 1; i <= idx; i ++) {
+            cntnt += ' ';
+            cntnt += words[i];
         }
-        rst.push(str);
+        rst.push(cntnt);
+        words.splice(0, idx + 1);
+        rst = rst.concat(fullJustify(words, maxWidth));
         return rst;
     }
-    var init = 0; 
-    while(init < words.length) {
-        str = '';
-        var tail = init;
-        var len = 0;
-        var dryLen = 0;
-        while(tail < words.length && len < maxWidth) {
-            tail ++;
-            dryLen += words[tail - 1].length;
-            len = dryLen + tail - init - 1;
+    len -= words[idx].length;
+    len --;
+    if(idx === 1) {
+        cntnt = words[0];
+        while(cntnt.length < maxWidth) {
+            cntnt += " ";
         }
-        if(len > maxWidth) {
-            dryLen -= words[tail - 1].length;
-            tail --;
-            len = dryLen + tail - init - 1;
-        }
-        if(tail === init + 1) {
-            str = words[init];
-            while(str.length < maxWidth) {
-                str+= ' ';
-            }
-            rst.push(str);
-            init = tail;
-            continue;
-        }
-        if(tail === words.length) {
-            while(init < tail) {
-                str += words[init];
-                str += ' ';
-                init ++;
-            }
-            while(str.length < maxWidth) {
-                str += ' ';
-            }
-            rst.push(str);
-            continue;
-        }
-        var dif = maxWidth - len;
-        var t = Math.floor(dif / (tail - init - 1));
-        dif %= (tail - init - 1);
-        var space = [];
-        for(var i = 0; i < tail - init - 1; i ++) {
-            space[i] = 1 + t;
-        }
-        i = 0;
-        while(dif > 0) {
-            space[i] ++;
-            dif --;
-            i ++;
-            if(i === space.length) {
-                i = 0;
-            }
-        }
-        for(i = 0; i < space.length; i ++) {
-            str += words[init + i];
-            for(var j = 0; j < space[i]; j ++) {
-                str += ' ';
-            }
-        }
-        str += words[init + i];
-        rst.push(str);
-        init = tail;
+        rst.push(cntnt);
+        words.splice(0, 1);
+        rst = rst.concat(fullJustify(words, maxWidth));
+        return rst;
     }
+    var lenDiff = maxWidth - len;
+    i = 0;
+    while(lenDiff > 0) {
+        words[i] += ' ';
+        lenDiff --;
+        i ++;
+        if(i === idx - 1) {
+            i = 0;
+        }
+    }
+    cntnt = words[0];
+    for(i = 1; i < idx; i ++) {
+        cntnt += ' ';
+        cntnt += words[i];
+    }
+    rst.push(cntnt);
+    words.splice(0, idx);
+    rst = rst.concat(fullJustify(words, maxWidth));
     return rst;
 };

@@ -1,0 +1,33 @@
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var productExceptSelf = function(nums) {
+    var rst = [];
+    var ref = 1;
+    var zeroCnt = 0;
+    
+    nums.forEach(function(num) {
+        if(num === 0) {
+            zeroCnt ++;
+        } else {
+            ref *= num;
+        }
+    });
+    for(var i = 0; i < nums.length; i ++) {
+        rst[i] = 0;
+    }
+    switch(zeroCnt) {
+        case 0:
+            for(i = 0; i < nums.length; i ++) {
+                rst[i] = ref / nums[i];
+            }
+            break;
+        case 1:
+            rst[nums.indexOf(0)] = ref;
+            break;
+        default:
+            break;
+    }
+    return rst;
+};

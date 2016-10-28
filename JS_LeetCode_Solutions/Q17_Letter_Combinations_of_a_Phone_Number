@@ -3,30 +3,27 @@
  * @return {string[]}
  */
 var letterCombinations = function(digits) {
-    digits.trim();
-    if(typeof digits !== 'string' || digits.length === 0 || digits.includes('0')) {
+    if(digits.length === 0) {
         return [];
     }
-    if(Number.isNaN(parseInt(digits))) {
-        return [];
-    }
-    var ref = {'1': ['*'], '2': ['a', 'b', 'c'], '3': ['d', 'e' ,'f'], '4': ['g', 'h', 'i'], '5': ['j', 'k', 'l'], '6': ['m', 'n', 'o'], '7': ['p', 'q', 'r', 's'], '8': ['t', 'u', 'v'], '9': ['w', 'x', 'y', 'z']}
     var input = digits.split('');
+    if(input.includes('1') || input.includes('*') || input.includes('#')) {
+        return [];
+    }
+    var ref = {'2': ['a', 'b', 'c'], '3': ['d', 'e', 'f'], '4': ['g', 'h', 'i'], '5': ['j', 'k', 'l'], '6': ['m', 'n', 'o'], '7': ['p', 'q', 'r', 's'], '8': ['t', 'u', 'v'], '9': ['w', 'x', 'y', 'z']};
     var rst = [];
-    ref[input[0]].forEach(function(val) {
-        rst.push(val);
-    });
-    input.splice(0, 1);
-    var tmp = [];
-    input.forEach(function(index) {
-        ref[index].forEach(function(val) {
-            rst.forEach(function(element) {
-                var str = element + val;
-                tmp.push(str);
-            });
+    input.forEach(function(val) {
+        let tmp = [];
+        ref[val].forEach(function(char) {
+            if(rst.length === 0) {
+                tmp.push(char);
+            } else {
+                rst.forEach(function(element) {
+                    tmp.push(element + char);
+                });
+            }
         });
         rst = tmp;
-        tmp = [];
     });
     return rst;
 };

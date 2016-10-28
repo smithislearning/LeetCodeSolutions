@@ -1,0 +1,21 @@
+/**
+ * @param {number[][]} matrix
+ * @return {void} Do not return anything, modify matrix in-place instead.
+ */
+var rotate = function(matrix) {
+    var init = 0;
+    var tail = matrix.length - 1;
+    while(init < tail) {
+        for(let i = 0; init + i < tail; i ++) {
+            let tmp0 = matrix[init + i][tail];
+            let tmp1 = matrix[tail][tail - i];
+            let tmp2 = matrix[tail - i][init];
+            matrix[init + i][tail] = matrix[init][init + i];
+            matrix[tail][tail - i] = tmp0;
+            matrix[tail - i][init] = tmp1;
+            matrix[init][init + i] = tmp2;
+        }
+        init ++;
+        tail --;
+    }
+};

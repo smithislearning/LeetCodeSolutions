@@ -1,0 +1,40 @@
+/**
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {Set} wordList
+ *   Note: wordList is a Set object, see:
+ *   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+ * @return {number}
+ */
+
+class Word {
+    constructor(val, step) {
+        this.val = val;
+        this.step = step;
+    }
+}
+
+var ladderLength = function(beginWord, endWord, wordList) {
+    var que = [];
+    que.push(new Word(beginWord, 1));
+    var idx = 0;
+    while(que.length > 0) {
+        let wrk = que.shift();
+        if(wrk.val === endWord) {
+            return wrk.step;
+        }
+        for(let i = 0; i < wrk.val.length; i ++) {
+            for(let j = 0; j < 26; j ++) {
+                let tmp = wrk.val.substring(0, i) + String.fromCharCode('a'.charCodeAt(0) + j);
+                if(i < wrk.val.length - 1) {
+                    tmp += wrk.val.substring(i + 1, wrk.val.length);
+                }
+                if(wordList.has(tmp)) {
+                    que.push(new Word(tmp, wrk.step + 1));
+                    wordList.delete(tmp);
+                }
+            }
+        }
+    }
+    return 0;
+};

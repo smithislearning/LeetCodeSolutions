@@ -1,4 +1,38 @@
-/**
+//**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {boolean}
+ */
+var searchMatrix = function(matrix, target) {
+    var idx = 0;
+    while(idx < matrix.length && matrix[idx][matrix[idx].length - 1] < target) {
+        idx ++;
+    }
+    while(idx < matrix.length && matrix[idx][0] <= target && matrix[idx][matrix[idx].length - 1] >= target) {
+        if(binarySearch(0, matrix[idx].length, matrix[idx], target)) {
+            return true;
+        }
+        idx ++;
+    }
+    return false;
+};
+
+var binarySearch = function(init, tail, arry, target) {
+    if(init >= tail) {
+        return false;
+    }
+    if(arry[init] > target || arry[tail - 1] <  target) {
+        return false;
+    }
+    if(arry[init] === target) {
+        return true;
+    }
+    var mid = Math.floor((init + tail) / 2);
+    if(target < arry[mid] && binarySearch(init, mid, arry,target)) {
+        return true;
+    }
+    return binarySearch(mid, tail, arry, target);
+}**
  * @param {number[][]} matrix
  * @param {number} target
  * @return {boolean}

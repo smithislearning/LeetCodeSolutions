@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+
+
+//There are 3 important stages in this solution: 1) Exit Case 2) Dissect the Problem 3) Come Back to Top
+
+var maxDepth = function(root) {
+
+    if (root === null){                              //Exit Case: start returning value when encountering AN EMPTY NODE,
+        return 0;
+    }
+
+    var leftNodeDepth = maxDepth(root.left) + 1;     //Dissect the problem: the relationship between the parent node and the child node
+    var rightNodeDepth = maxDepth(root.right) + 1;
+
+    return (Math.max(leftNodeDepth,rightNodeDepth)); //Come Back to Top: the main logic! how to get the result in each level
+};

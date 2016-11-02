@@ -1,0 +1,41 @@
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {number[]}
+ */
+var findAnagrams = function(s, p) {
+    if(s.length < p.length || s.length === 0 || p.length === 0) {
+        return [];
+    }
+    var bench = {};
+    for(let i = 0; i < p.length; i ++) {
+        let c = p.charAt(i);
+        if(typeof bench[c] === 'undefined') {
+            bench[c] = 0;
+        }
+        bench[c] ++;
+    }
+    var init = 0, tail = 0, count = p.length;
+    var rst = [];
+    while(tail < s.length) {
+        if(tail - init === p.length) {
+            let ch = s.charAt(init);
+            if(typeof bench[ch] !== 'undefined' && bench[ch]++ >= 0) {
+                count ++;
+            }
+            init ++;
+        }
+        let th = s.charAt(tail);
+        if(typeof bench[th] !== 'undefined') {
+            bench[th] --;
+            if(bench[th] >= 0) {
+                count --;
+            }
+        }
+        tail ++;
+        if(count === 0) {
+            rst.push(init);
+        }
+    }
+    return rst;
+};

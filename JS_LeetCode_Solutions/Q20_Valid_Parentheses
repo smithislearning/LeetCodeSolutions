@@ -6,16 +6,16 @@ var isValid = function(s) {
     if(typeof s !== 'string' || s.length < 2) {
         return false;
     }
-    var ref = {'(': ')', '[': ']', '{': '}'};
-    var refL = s.charAt(0);
-    var refR = s.substring(1, s.length);
-    while(refR.length > 0) {
-        if(refR.charAt(0) === ref[refL.charAt(refL.length - 1)]) {
-            refL = refL.substring(0, refL.length - 1);
+    var ref = {'(':')','[':']','{':'}'};
+    var subL = s.charAt(0);
+    var subR = s.substring(1, s.length);
+    while(subR.length > 0) {
+        if(subR.charAt(0) === ref[subL.charAt(subL.length - 1)]) {
+            subL = subL.substring(0, subL.length - 1);
         } else {
-            refL += refR.charAt(0);
+            subL += subR.charAt(0);
         }
-        refR = refR.substring(1, refR.length);
+        subR = subR.substring(1, subR.length);
     }
-    return refL.length === 0;
+    return subL.length === 0;
 };

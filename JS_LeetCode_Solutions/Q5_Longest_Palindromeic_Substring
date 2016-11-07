@@ -1,0 +1,73 @@
+/**
+
+ * @param {string} s
+
+ * @return {string}
+
+ */
+
+var longestPalindrome = function(s) {
+
+    var ref = [];
+
+    for(let i = 0; i < s.length; i ++) {
+
+        ref.push('#');
+
+        ref.push(s.charAt(i));
+
+    }
+
+    ref.push('#');
+
+    var ref1 = [];
+
+    for(let i = 0; i < ref.length; i ++) {
+
+        let j = 0;
+
+        while(i - j >= 0 && i + j < ref.length && ref[i - j] === ref[i + j]) {
+
+            j ++;
+
+        }
+
+        ref1[i] = -- j;
+
+    }
+
+    // console.log(ref);
+
+    // console.log(ref1);
+
+    var max = -1
+
+    var maxIdx = -1;
+
+    for(let i = 0; i < ref.length; i ++) {
+
+        if(ref1[i] > max) {
+
+            max = ref1[i];
+
+            maxIdx = i;
+
+        }
+
+    }
+
+    var rst = '';
+
+    for(let i = maxIdx - ref1[maxIdx]; i <= maxIdx + ref1[maxIdx]; i ++) {
+
+        if(ref[i] !== '#') {
+
+            rst += ref[i];
+
+        }
+
+    }
+
+    return rst;
+
+};

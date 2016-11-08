@@ -1,78 +1,129 @@
 /**
- * @param {string} beginWord
- * @param {string} endWord
- * @param {Set} wordList
- *   Note: wordList is a Set object, see:
- *   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
- * @return {string[][]}
- */
-var findLadders = function(beginWord, endWord, wordList) {
-    if(typeof beginWord !== 'string' || typeof endWord !== 'string' || beginWord.length !== endWord.length) {
-        return [];
-    }
-    var lib = {};
-//    wordList.delete(beginWord);
-    wordList.add(endWord);
-//    console.log(wordList);
-    lib = bfsMapConstruct(beginWord, lib, wordList);
-    console.log(lib);
-//    return [];
-    return dfsFindMinPath(beginWord, endWord, lib);
-};
-var bfsMapConstruct = function(beginWord, lib, wordList) {
-    var prev = new Set();
-    var crrt = new Set();
-    prev.add(beginWord);
-    var itr = prev.values();
-    var val = itr.next().value;
-    while(typeof val !== 'undefined') {
-        lib[val] = new Set();
-        wordList.delete(val);
-        for(var i = 0; i < val.length; i ++) {
-            for(var j = 0; j < 26; j ++) {
-                var str = val.substring(0, i) + String.fromCharCode('a'.charCodeAt(0) + j) + val.substring(i + 1, val.length);
-                if(str !== val && wordList.has(str) && !prev.has(str)) {
-                    crrt.add(str);
-                    lib[val].add(str);
-                }
-            }
-        }
-        val = itr.next().value;
-        if(typeof val === 'undefined') {
-            if(crrt.length === 0) {
-                break;
-            } else {
-                prev = crrt;
-                crrt = new Set();
-                itr = prev.values();
-                val = itr.next().value;
-            }
-        }
-    }
-    return lib;
-}
 
-var dfsFindMinPath = function(beginWord, endWord, lib) {
-    if(lib.size === 0) {
+ * @param {string} beginWord
+
+ * @param {string} endWord
+
+ * @param {Set} wordList
+
+ *   Note: wordList is a Set object, see:
+
+ *   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+
+ * @return {string[][]}
+
+ */
+
+var findLadders = function(beginWord, endWord, wordList) {
+
+    if(beginWord.length !== endWord.length) {
+
         return [];
+
     }
-//    console.log(lib);
-//    console.log(beginWord);
-    if(lib[beginWord].has(endWord)) {
-        return [[beginWord, endWord]];
-    }
-    var itr = lib[beginWord].values();
-    var rst = [];
+
+    var map = {};
+
+    wordList.add(endWord);
+
+    map = bfs(beginWord, map, wordList);
+
+    return dfs(beginWord, endWord, map);
+
+};
+
+var bfs = function(bW, map, wL) {
+
+    var crrt = new Set();
+
+    var next = new Set();
+
+    crrt.add(bW);
+
+    var itr = crrt.values();
+
     var val = itr.next().value;
+
     while(typeof val !== 'undefined') {
-        var tmp = dfsFindMinPath(val, endWord, lib);
-        if(tmp.length > 0) {
-            tmp.forEach(function(arry) {
-                arry = arry.unshift(beginWord);
-            });
-            rst = rst.concat(tmp);
+
+        map[val] = new Set();
+
+        wL.delete(val);
+
+        for(let i = 0; i < val.length; i ++) {
+
+            for(let j = 0; j < 26; j ++) {
+
+                let tmp = val.substring(0, i) + String.fromCharCode('a'.charCodeAt(0) + j) + val.substring(i + 1, val.length);
+
+                if(tmp !== val && !crrt.has(tmp) && wL.has(tmp)) {
+
+                    next.add(tmp);
+
+                    map[val].add(tmp);
+
+                }
+
+            }
+
         }
+
         val = itr.next().value;
+
+        if(typeof val === 'undefined' && next.size > 0) {
+
+            crrt = next;
+
+            next = new Set();
+
+            itr = crrt.values();
+
+            val = itr.next().value;
+
+        }
+
     }
+
+    return map;
+
+};
+
+var dfs = function(bW, eW, map) {
+
+    var rst = [];
+
+    if(map[bW].has(eW)) {
+
+        rst.push([bW, eW]);
+
+        return rst;
+
+    }
+
+    var itr = map[bW].values();
+
+    var val = itr.next().value;
+
+    while(typeof val !== 'undefined') {
+
+        let cntnt = dfs(val, eW, map);
+
+        if(cntnt.length > 0) {
+
+            for(let i = 0; i < cntnt.length; i ++) {
+
+                cntnt[i].unshift(bW);
+
+            }
+
+            rst = rst.concat(cntnt);
+
+        }
+
+        val = itr.next().value;
+
+    }
+
     return rst;
+
 }

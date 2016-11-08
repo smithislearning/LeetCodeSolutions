@@ -1,27 +1,51 @@
 /**
+
  * @param {string} s
+
  * @return {number}
+
  */
+
 var lengthOfLongestSubstring = function(s) {
-    if(s.length < 2) {
-        return s.length;
-    }
-    var ref = {};
+
+    var hash = {};
+
+    var init = 0;
+
+    var tail = 0;
+
     var max = 0;
-    var wrk = [];
-    for(var i = 0; i < s.length; i ++) {
-        if(ref[s.charAt(i)] === undefined) {
-            wrk.push(s.charAt(i));
-            ref[s.charAt(i)] = true;
+
+    while(tail < s.length) {
+
+        let c = s.charAt(tail);
+
+        if(typeof hash[c] === 'undefined' || !hash[c]) {
+
+            hash[c] = true;
+
         } else {
-            var char = s.charAt(i);
-            max = Math.max(max, wrk.length);
-            var tmp = wrk.indexOf(char);
-            if(tmp >= 0) {
-                wrk.splice(0, tmp + 1);
+
+            max = Math.max(tail - init, max);
+
+            while(init < tail && s.charAt(init) !== c) {
+
+                hash[s.charAt(init)] = false;
+
+                init ++;
+
             }
-            wrk.push(char);
+
+            init ++;
+
         }
+
+        tail ++;
+
     }
-    return Math.max(max, wrk.length);
+
+    max = Math.max(tail - init, max);
+
+    return max;
+
 };

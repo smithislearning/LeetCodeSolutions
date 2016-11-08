@@ -1,0 +1,59 @@
+/**
+
+ * @param {string} s
+
+ * @param {string} t
+
+ * @return {boolean}
+
+ */
+
+var isAnagram = function(s, t) {
+
+    if(s.length !== t.length) {
+
+        return false;
+
+    }
+
+    var bench = {};
+
+    for(let i = 0; i < s.length; i ++) {
+
+        let c = s.charAt(i);
+
+        if(typeof bench[c] === 'undefined') {
+
+            bench[c] = 0;
+
+        }
+
+        bench[c] ++;
+
+    }
+
+    for(let i = 0; i < t.length; i ++) {
+
+        let c = t.charAt(i);
+
+        if(typeof bench[c] === 'undefined') {
+
+            return false;
+
+        }
+
+        bench[c] --;
+
+        if(bench[c] < 0) {
+
+            return false;
+
+        }
+
+        
+
+    }
+
+    return true;
+
+};

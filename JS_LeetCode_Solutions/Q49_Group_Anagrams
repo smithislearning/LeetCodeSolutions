@@ -1,0 +1,51 @@
+/**
+
+ * @param {string[]} strs
+
+ * @return {string[][]}
+
+ */
+
+var groupAnagrams = function(strs) {
+
+    var rst = [];
+
+    if(strs.length === 0) {
+
+        return rst;
+
+    }
+
+    if(strs.length === 1) {
+
+        rst.push(strs);
+
+        return rst;
+
+    }
+
+    var hash = {};
+
+    for(let i = 0; i < strs.length; i ++) {
+
+        let key = strs[i].split('').sort().toString();
+
+        if(typeof hash[key] === 'undefined') {
+
+            hash[key] = [];
+
+        }
+
+        hash[key].push(strs[i]);
+
+    }
+
+    for(var prop in hash) {
+
+        rst.push(hash[prop]);
+
+    }
+
+    return rst;
+
+};

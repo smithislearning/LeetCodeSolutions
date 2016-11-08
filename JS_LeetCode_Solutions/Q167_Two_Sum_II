@@ -1,0 +1,71 @@
+/**
+
+ * @param {number[]} numbers
+
+ * @param {number} target
+
+ * @return {number[]}
+
+ */
+
+var twoSum = function(numbers, target) {
+
+    if(numbers.length === 0 || numbers[0] > target) {
+
+        return [];
+
+    }
+
+    var idx = 0;
+
+    while(idx < numbers.length && numbers[idx] <= target) {
+
+        let sRst = binarySearch(0, numbers.length, target - numbers[idx], numbers);
+
+        if(!Number.isNaN(sRst) && sRst !== idx) {
+
+            if(idx > sRst) {
+
+                return [sRst + 1, idx + 1];
+
+            }
+
+            return [idx + 1, sRst + 1];
+
+        }
+
+        idx ++;
+
+    }
+
+    return [];
+
+};
+
+var binarySearch = function(init, tail, tgt, lib) {
+
+    if(init === tail || lib[init] > tgt || lib[tail - 1] < tgt) {
+
+        return NaN;
+
+    }
+
+    if(lib[init] === tgt) {
+
+        return init;
+
+    }
+
+    var mid = Math.floor((init + tail) / 2);
+
+    var left = binarySearch(init, mid, tgt, lib);
+
+    if(!Number.isNaN(left)) {
+
+        return left;
+
+    }
+
+    return binarySearch(mid, tail, tgt, lib);
+
+};

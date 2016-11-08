@@ -1,0 +1,57 @@
+/**
+
+ * @param {string} s
+
+ * @param {set<string>} wordDict
+
+ *   Note: wordDict is a Set object, see:
+
+ *   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+
+ * @return {boolean}
+
+ */
+
+var wordBreak = function(s, wordDict) {
+
+    var ref = [];
+
+    ref[0] = true;
+
+    for(let i = 0; i < s.length; i ++) {
+
+        if(!ref[i]) {
+
+            continue;
+
+        }
+
+        let itr = wordDict.values();
+
+        let val = itr.next().value;
+
+        while(typeof val !== 'undefined') {
+
+            let end = i + val.length;
+
+            if(end <= s.length && (typeof ref[end] === 'undefined' || !ref[end]) && s.substring(i, end) === val) {
+
+                ref[end] = true;
+
+            }
+
+            val = itr.next().value;
+
+        }
+
+    }
+
+    if(ref[s.length]) {
+
+        return true;
+
+    }
+
+    return false;
+
+};

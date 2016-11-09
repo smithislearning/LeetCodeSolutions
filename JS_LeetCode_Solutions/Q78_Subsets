@@ -1,0 +1,45 @@
+/**
+
+ * @param {number[]} nums
+
+ * @return {number[][]}
+
+ */
+
+var subsets = function(nums) {
+
+    var rst = [];
+
+    rst.push([]);
+
+    if(nums.length === 0) {
+
+        return rst;
+
+    }
+
+    for(let i = 0; i < nums.length; i ++) {
+
+        let len = rst.length;
+
+        for(let j = 0; j < len; j ++) {
+
+            let cntnt = [];
+
+            for(let k = 0; k < rst[j].length; k ++) {
+
+                cntnt.push(rst[j][k]);
+
+            }
+
+            cntnt.push(nums[i]);
+
+            rst.push(cntnt);
+
+        }
+
+    }
+
+    return rst;
+
+};

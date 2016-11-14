@@ -1,0 +1,47 @@
+/**
+
+ * @param {number} n
+
+ * @return {number[]}
+
+ */
+
+var grayCode = function(n) {
+
+    if(n === 0) {
+
+        return [0];
+
+    }
+
+    if(n === 1) {
+
+        return [0, 1];
+
+    }
+
+    var rst = grayCode(n - 1);
+
+    var size = rst.length - 1;
+
+    // rst.push(Math.floor(Math.pow(2, n - 1) + rst[size]));
+
+    // for(let i = 0; i < size; i ++) {
+
+    //     rst.push(rst[rst.length - 1] - (rst[size - i] - rst[size - i - 1]));
+
+    // }
+
+    // return rst;
+
+    var lmd = Math.floor(Math.pow(2, n - 1));
+
+    for(let i = size; i > -1 ; i --) {
+
+        rst.push(lmd + rst[i]);
+
+    }
+
+    return rst;
+
+};

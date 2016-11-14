@@ -1,0 +1,27 @@
+/**
+ * @param {character[]} str
+ * @return {void} Do not return anything, modify the string in-place instead.
+ */
+var reverseWords = function(str) {
+    reverse(0, str.length, str);
+    var init = 0;
+    while(init < str.length) {
+        let tail = init;
+        while(tail < str.length && str[tail] !== ' ') {
+            tail ++;
+        }
+        reverse(init, tail, str);
+        init = tail + 1;
+    }
+};
+var reverse = function(init, tail, str) {
+    var i = init;
+    var j = tail;
+    while(i < j - 1) {
+        let tmp = str[i];
+        str[i] = str[j - 1];
+        str[j - 1] = tmp;
+        i ++;
+        j --;
+    }
+};

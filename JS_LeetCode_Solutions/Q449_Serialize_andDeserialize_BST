@@ -1,0 +1,78 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+
+/**
+ * Encodes a tree to a single string.
+ *
+ * @param {TreeNode} root
+ * @return {string}
+ */
+var serialize = function(root) {
+    var rst = [];
+    if(root === null) {
+        return rst;
+    }
+    var crrt = [];
+    
+    var next = [];
+    crrt.push(root);
+    while(crrt.length > 0) {
+        let node = crrt.shift();
+        if(node === null) {
+            rst.push('null');
+        } else {
+            rst.push(node.val);
+            next.push(node.left);
+            next.push(node.right);
+        }
+        if(crrt.length === 0 && next.length > 0) {
+            crrt = next;
+            next = [];
+        }
+    }
+    return rst.toString();
+};
+
+/**
+ * Decodes your encoded data to tree.
+ *
+ * @param {string} data
+ * @return {TreeNode}
+ */
+var deserialize = function(data) {
+    if(data.length === 0) {
+        return null;
+    }
+    var sT = data.split(',');
+    var root = new TreeNode(Number(sT[0]));
+    var crrt = [];
+    crrt.push(root);
+    var idx = 1;
+    while(idx < sT.length && crrt.length > 0) {
+        let node = crrt.shift();
+        if(sT[idx] !== 'null') {
+            node.left = new TreeNode(Number(sT[idx]));
+            crrt.push(node.left);
+        }
+        idx ++;
+        if(idx >= sT.length) {
+            break;
+        }
+        if(sT[idx] !== 'null') {
+            node.right = new TreeNode(Number(sT[idx]));
+            crrt.push(node.right);
+        }
+        idx ++;
+    }
+    return root;
+};
+
+/**
+ * Your functions will be called as such:
+ * deserialize(serialize(root));
+ */

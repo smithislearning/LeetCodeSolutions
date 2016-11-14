@@ -1,0 +1,31 @@
+/**
+ * @param {number[]} A
+ * @return {number}
+ */
+var maxRotateFunction = function(A) {
+    if(A.length <= 1) {
+        return 0;
+    }
+    var max = Number.MIN_SAFE_INTEGER;
+    for(let i = 0; i < A.length; i ++) {
+        max = Math.max(max, rotateFunction(i, A));
+    }
+    return max;
+};
+var rotateFunction = function(k, A) {
+    var t = k;
+    var idx = 0;
+    var rst = 0;
+    while(t < A.length && idx < A.length) {
+        rst += (t * A[idx]);
+        t ++;
+        idx ++;
+    }
+    t = 0;
+    while(t < k && idx < A.length) {
+        rst += (t * A[idx]);
+        t ++;
+        idx ++;
+    }
+    return rst;
+};

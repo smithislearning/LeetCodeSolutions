@@ -1,0 +1,53 @@
+/**
+
+ * @param {number} n
+
+ * @return {number}
+
+ */
+
+var countPrimes = function(n) {
+
+    if(n < 3) {
+
+        return 0;
+
+    }
+
+    var ref = [false, false];
+
+    for(let i = 2; i < n; i ++) {
+
+        ref.push(true);
+
+    }
+
+    for(let i = 2; i < n; i ++) {
+
+        if(ref[i]) {
+
+            for(let j = i + i; j < n; j += i) {
+
+                ref[j] = false;
+
+            }
+
+        }
+
+    }
+
+    var rst = 0;
+
+    for(let i = 0; i < n; i ++) {
+
+        if(ref[i]) {
+
+            rst ++;
+
+        }
+
+    }
+
+    return rst;
+
+};

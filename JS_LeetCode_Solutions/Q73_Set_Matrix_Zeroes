@@ -1,0 +1,75 @@
+/**
+
+ * @param {number[][]} matrix
+
+ * @return {void} Do not return anything, modify matrix in-place instead.
+
+ */
+
+var setZeroes = function(matrix) {
+
+    for(let i = 0; i < matrix.length; i ++) {
+
+        for(let j = 0; j < matrix[i].length; j ++) {
+
+            if(matrix[i][j] === 0) {
+
+                setZero(i, j, matrix);
+
+            }
+
+        }
+
+    }
+
+    for(let i = 0; i < matrix.length; i ++) {
+
+        for(let j = 0; j < matrix[i].length; j ++) {
+
+            if(Number.isNaN(matrix[i][j])) {
+
+                matrix[i][j] = 0;
+
+            }
+
+        }
+
+    }
+
+};
+
+
+
+var setZero = function(h, v, matrix) {
+
+    if(matrix[h][v] !== 0) {
+
+        return;
+
+    }
+
+    for(let i = 0; i < matrix.length; i ++) {
+
+        if(i === h || matrix[i][v] === 0) {
+
+            continue;
+
+        }
+
+        matrix[i][v] = NaN;
+
+    }
+
+    for(let j = 0; j < matrix[h].length; j ++) {
+
+        if(j === v || matrix[h][j] === 0) {
+
+            continue;
+
+        }
+
+        matrix[h][j] = NaN;
+
+    }
+
+};

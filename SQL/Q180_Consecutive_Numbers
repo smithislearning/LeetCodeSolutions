@@ -1,0 +1,13 @@
+# Write your MySQL query statement below
+
+select distinct Num as ConsecutiveNums from (
+
+select Num, Rep from(
+
+select Num, @Rep := if(@pNum = Num, @Rep + 1, 1) as Rep, @pNum := Num from
+
+Logs l, (select @Rep := 0) r, (select @pNum := null) p order by Id asc) t
+
+where Rep > 2
+
+) n;

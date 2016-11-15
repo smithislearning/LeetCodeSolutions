@@ -1,0 +1,9 @@
+# Write your MySQL query statement below
+
+select Score, Rank from (
+
+select Score, @rand := @rand + if(@Score = Score, 0, 1) as Rank, @Score := Score from
+
+Scores s, (select @rand:= 0) r, (select @Score := null) p
+
+order by Score desc) t;

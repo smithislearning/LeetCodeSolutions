@@ -1,0 +1,31 @@
+/**
+ * @param {string} pattern
+ * @param {string} str
+ * @return {boolean}
+ */
+var wordPattern = function(pattern, str) {
+    var ref = {};
+    var pat = [];
+    for(let i = 0; i < pattern.length; i ++) {
+        let c = pattern.charAt(i);
+        if(typeof ref[c] === 'undefined') {
+            ref[c] = i;
+        }
+        pat.push(ref[c]);
+    }
+    var input = str.split(' ');
+    if(input.length !== pat.length) {
+        return false;
+    }
+    // console.log(pat);
+    // console.log(input);
+    for(let i = 0; i < pat.length; i ++) {
+        if(input[i] !== input[pat[i]]) {
+            return false;
+        }
+        if(i > 0 && pat[i] !== pat[i - 1] && input[pat[i]] === input[pat[i - 1]]) {
+            return false;
+        }
+    }
+    return true;
+};

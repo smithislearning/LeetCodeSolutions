@@ -1,0 +1,63 @@
+/**
+
+ * @param {number[]} candidates
+
+ * @param {number} target
+
+ * @return {number[][]}
+
+ */
+
+var combinationSum = function(candidates, target) {
+
+    candidates.sort(function(a, b) {
+
+        return a - b;
+
+    });
+
+    var ref = [];
+
+    var res = [];
+
+    dfs(0, 0);
+
+    return res;
+
+    
+
+    function dfs(sum, idx) {
+
+        if(sum === target) {
+
+            let cntnt = [];
+
+            for(let i = 0; i < ref.length; i ++) {
+
+                cntnt[i] = ref[i];
+
+            }
+
+            res.push(cntnt);
+
+        }
+
+        for(let i = idx; i < candidates.length; i ++) {
+
+            if(sum + candidates[i] > target) {
+
+                break;
+
+            }
+
+            ref.push(candidates[i]);
+
+            dfs(sum + candidates[i], i);
+
+            ref.pop();
+
+        }
+
+    }
+
+};
